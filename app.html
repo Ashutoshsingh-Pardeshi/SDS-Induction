@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">        
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"/>
+        <link rel="stylesheet" href="app.css">
+        <title>Reminder App</title>
+    </head>
+    <body>
+        <ion-app>
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title>Reminder App</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content>
+                <ion-grid>
+                    <ion-card>
+                        <ion-card-content style="padding-top: 0;">
+                            <ion-item>
+                                <ion-label position="floating" autocapitalize="on">Enter your task</ion-label>
+                                <ion-input clear-input type="text" id="input-reminder"></ion-input>
+                            </ion-item>
+                
+                            <ion-row class="ion-align-items-end ion-justify-content-between" style="padding-top: 13px;">
+                                <ion-button size="small" color="primary" id="addReminder"> 
+                                    <ion-icon slot="start" name="add"></ion-icon>
+                                    Add Reminder
+                                </ion-button>
+                                <ion-button size="small" color="primary" id="addExtensions"> 
+                                    <ion-icon slot="start" name="list-outline"></ion-icon>
+                                    Add Extensions
+                                </ion-button>
+                            </ion-row>
+                        </ion-card-content>
+                    </ion-card>
+                    <ion-row><!-- Recently added -->
+                        <ion-col>
+                            <ion-list>
+                                <ion-item lines="full" color="primary">
+                                    <ion-label>Recently added reminders</ion-label>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>HI</ion-label>
+                                </ion-item>
+                            </ion-list>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row><!-- Upcomming  -->
+                        <ion-col>
+                            <ion-list>
+                                <ion-item lines="full" color="primary">
+                                    <ion-label>Upcomming reminders</ion-label>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>HI</ion-label>
+                                </ion-item>
+                            </ion-list>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row><!-- Completed -->
+                        <ion-col>
+                            <ion-list>
+                                <ion-item lines="full" color="primary">
+                                    <ion-label>Completed reminders</ion-label>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>HI</ion-label>
+                                </ion-item>
+                            </ion-list>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+ 
+                <section class="full-width">
+                    <ion-button expand="full" color="secondary">Go to your reminders</ion-button>
+                </section>
+                
+                <!-- The new page starts from here -->
+
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <ion-list>
+                                <ion-item color="primary">
+                                    <ion-label>Your Reminders</ion-label>
+                                </ion-item>
+                            </ion-list>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row>
+                        <ion-col>
+                            <ion-list id="reminderList"></ion-list>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-content>
+        </ion-app>
+
+        <div><!-- Javascript files -->
+            <script type="text/JavaScript" src="app.js"></script>
+            <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+        </div>
+    </body>
+</html>
