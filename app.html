@@ -35,6 +35,48 @@
                                     Add Extensions
                                 </ion-button>
                             </ion-row>
+                            
+                            <ion-list id="extensions">
+                                <ion-item>
+                                    <ion-label>Category</ion-label>
+                                    <ion-select interface="popover" value="General" name="category">
+                                        <ion-select-option>General</ion-select-option>
+                                        <ion-select-option>Home</ion-select-option>
+                                        <ion-select-option>Work</ion-select-option>
+                                        <ion-select-option>Personal</ion-select-option>
+                                        <ion-select-option>Birthday</ion-select-option>
+                                        <ion-select-option value="Fest">Festival / Holiday</ion-select-option>
+                                        <ion-select-option>Custom</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                                
+                                <ion-item>
+                                    <ion-label>Priority</ion-label>
+                                    <ion-select interface="popover" name="priority" value="Normal">
+                                        <ion-select-option>Normal</ion-select-option>
+                                        <ion-select-option>High</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label>Repetition</ion-label>
+                                    <ion-select interface="popover" value="Once" name="repeat">
+                                        <ion-select-option>Once</ion-select-option>
+                                        <ion-select-option>Daily</ion-select-option>
+                                        <ion-select-option>Weekly</ion-select-option>
+                                        <ion-select-option>Monthly</ion-select-option>
+                                        <ion-select-option>Yearly</ion-select-option>
+                                        <ion-select-option>Select Days in a Week</ion-select-option>
+                                        <ion-select-option>Select Days in a Month</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="floating" autocapitalize="on">Descibe in detail</ion-label>
+                                    <ion-input type="text" id="description"></ion-input>
+                                </ion-item>
+
+                            </ion-list>
                         </ion-card-content>
                     </ion-card>
                     <ion-row><!-- Recently added -->
@@ -80,10 +122,8 @@
                 <section class="full-width">
                     <ion-button expand="full" color="secondary">Go to your reminders</ion-button>
                 </section>
-                
-                <!-- The new page starts from here -->
 
-                <ion-grid>
+                <ion-grid><!-- The new page starts from here -->
                     <ion-row>
                         <ion-col>
                             <ion-list>
