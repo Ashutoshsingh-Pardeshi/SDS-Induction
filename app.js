@@ -1,5 +1,5 @@
 //Bugs :-
-// Why teh jQuery() is not activating when reminder is enterted using the enter key ?
+// Why the jQuery() is not activating when reminder is enterted using the enter key ?
 // How to nest select-lists ??
 
 
@@ -12,19 +12,28 @@ const Extensions = document.getElementById("extensions");
 const extnDescription = document.getElementById("description");
 
 var new_ionItem;
-var deleteIcon;
+var new_ionCard;    // The card inside the ion-item
+var extn_body;  // The ion-list containing all the categories and description
+var extn_bttns; // The ion-list containing the ion-items which inturn contains the big-buttons
+var buttonItem; // The big buttons
+
+var deleteIcon; 
 var completeIcon;
 var modifyIcon;
 var burgerIcon;
-var new_ionCard; 
-var priorityItem;
+
+var priorityItem; 
 var categoryItem;
 var repetitionItem;
+var typeItem;
 var descriptionItem;
-var buttonItem;
-var extn_body;
-var extn_bttns;
 
+var Category;   // The dictionary
+var selectedCategory;   // The selected value 
+var Repeat; // The dictionary
+var selectedRepeat; // The selected value 
+var Type;   // The dictionary
+var selectedType;   // The selected value 
 
 
 //Showing the extensions 
@@ -38,11 +47,12 @@ addRemBttn.addEventListener("click" ,jQuery)
 addRemBttn.addEventListener("click" ,addPriority)
 addRemBttn.addEventListener("click" ,addCategory)
 addRemBttn.addEventListener("click" ,addRepeat)
+addRemBttn.addEventListener("click" ,addType)
 addRemBttn.addEventListener("click" ,addDescribtion)
 //This to hide the extension div, so that it does not remain open
-// addRemBttn.addEventListener("click" ,function(){
-//     $(Extensions).slideUp(500)
-// })
+addRemBttn.addEventListener("click" ,function(){
+    $(Extensions).slideUp(500)
+})
 
 inputReminder.addEventListener("keypress", function(e){
     if(e.which == 13)
@@ -119,14 +129,41 @@ function addPriority(){
 
 function addCategory(){
     categoryItem = document.createElement("ion-item")
-    $(categoryItem).append('<ion-icon slot="start" size="large" name="" style="margin:0"></ion-icon>')
+    selectedCategory = document.getElementsByClassName("aux-input")[0].value
+    Category = {
+        "General" : '<ion-icon slot="start" size="large" style="margin:0" name="apps-outline"></ion-icon><h6 style="margin-left:20px">General</h6>',
+
+        "Home" : '<ion-icon slot="start" size="large" style="margin:0" name="home-outline"></ion-icon><h6 style="margin-left:20px">Home</h6>',
+
+        "Work" : '<ion-icon slot="start" size="large" style="margin:0" name="folder-outline"></ion-icon><h6 style="margin-left:20px">Work</h6>',
+
+        "Personal" : '<ion-icon slot="start" size="large" style="margin:0" name="person-outline"></ion-icon><h6 style="margin-left:20px">Personal</h6>',
+
+        "Birthday" : '',
+
+        "Fest" : '<ion-icon slot="start" size="large" style="margin:0" name="calendar-outline"></ion-icon><h6 style="margin-left:20px">Festival / Holiday</h6>'
+    }
+
+    $(categoryItem).append(Category[selectedCategory])
     extn_body.appendChild(categoryItem)
 }
 
 function addRepeat(){
     repetitionItem = document.createElement("ion-item")
-    $(repetitionItem).append('<ion-icon slot="start" size="large" name="stopwatch-outline" style="margin:0"></ion-icon>')
+    $(repetitionItem).append('<ion-icon slot="start" size="large" name="repeat" style="margin:0">         </ion-icon><h6 style="margin-left:20px">' + document.getElementsByClassName("aux-input")[2].value + '</h6>' )
     extn_body.appendChild(repetitionItem)
+}
+
+function addType(){
+    typeItem = document.createElement("ion-item")
+    selectedType = document.getElementsByClassName("aux-input")[3].value;
+    Type = {
+        "Alarm" : '<ion-icon slot="start" size="large" name="alarm-outline" style="margin:0"></ion-icon><h6 style="margin-left:20px"> Alarm </h6>',
+
+        "Notification" : '<ion-icon slot="start" size="large" name="notifications-outline" style="margin:0"></ion-icon><h6 style="margin-left:20px"> Notification </h6>'
+    }
+    $(typeItem).append(Type[selectedType])
+    extn_body.appendChild(typeItem)
 }
 
 function addDescribtion(){ // DONE !!
@@ -149,3 +186,11 @@ function jQuery()
 
     })
 }
+
+//
+//
+//
+//
+//
+//<ion-icon name="notifications-outline"></ion-icon>
+//
