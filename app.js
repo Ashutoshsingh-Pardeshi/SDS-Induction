@@ -30,11 +30,12 @@ var descriptionItem;
 
 var Category;   // The dictionary
 var selectedCategory;   // The selected value 
-var Repeat; // The dictionary
-var selectedRepeat; // The selected value 
 var Type;   // The dictionary
 var selectedType;   // The selected value 
 
+var selectedDate;
+var selectedTime;
+var displayTime;
 
 //Showing the extensions 
 addExtnBttn.addEventListener("click" ,function(){
@@ -158,11 +159,43 @@ function addType(){
     typeItem = document.createElement("ion-item")
     selectedType = document.getElementsByClassName("aux-input")[3].value;
     Type = {
-        "Alarm" : '<ion-icon slot="start" size="large" name="alarm-outline" style="margin:0"></ion-icon><h6 style="margin-left:20px"> Alarm </h6>',
+        "Alarm" : '<ion-icon slot="start" size="large" name="alarm-outline" style="margin:0"></ion-icon><h6 style="margin-left:20px"> Alarm ',
 
-        "Notification" : '<ion-icon slot="start" size="large" name="notifications-outline" style="margin:0"></ion-icon><h6 style="margin-left:20px"> Notification </h6>'
+        "Notification" : '<ion-icon slot="start" size="large" name="notifications-outline" style="margin:0"></ion-icon><h6 style="margin-left:20px"> Notification '
     }
-    $(typeItem).append(Type[selectedType])
+    // Getting the date from the user
+    selectedDate = new Date(document.getElementsByClassName("aux-input")[4].value);
+    year = selectedDate.getFullYear();
+    month = selectedDate.toLocaleString('default', { month: 'short' })
+    date = selectedDate.getDate();
+
+    //Getting the time from the user
+    selectedTime = new Date(document.getElementsByClassName("aux-input")[5].value);
+    hours = selectedTime.getHours()
+    mins = selectedTime.getMinutes()
+    if(mins < 10){
+        minutes = '0' + mins
+    }
+    else{
+        minutes = mins
+    }
+    if(hours == 0 ){
+        displayTime = (hours+12) + ':' + minutes  + ' AM'
+    }
+    else if(hours < 12){
+        displayTime = hours + ':' + minutes  + ' AM'
+    }
+    else if(hours > 12){
+        displayTime = (hours-12) + ':' + minutes + ' PM'
+    }
+    else if( hours == 12 && minutes == 00 ){
+        displayTime = hours + ':' + minutes  + ' Noon'
+    }
+    else if( hours == 12 && minutes > 0 ){
+        displayTime = hours + ':' + minutes  + ' PM'
+    }
+    console.log(displayTime)
+    $(typeItem).append(Type[selectedType] + '  ( ' + date + ' ' + month + ', ' + year + ' | ' + displayTime + ' )</h6>')
     extn_body.appendChild(typeItem)
 }
 
