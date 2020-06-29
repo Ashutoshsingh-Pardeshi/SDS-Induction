@@ -36,7 +36,7 @@
                                 </ion-button>
                             </ion-row>
                             
-                            <ion-list id="extensions">
+                            <ion-list id="extensions" style="display: none;"><!-- Extensions -->
                                 <ion-item>
                                     <ion-label>Category</ion-label>
                                     <ion-select interface="popover" value="General" name="category">
@@ -46,16 +46,13 @@
                                         <ion-select-option>Personal</ion-select-option>
                                         <ion-select-option>Birthday</ion-select-option>
                                         <ion-select-option value="Fest">Festival / Holiday</ion-select-option>
-                                        <ion-select-option>Custom</ion-select-option>
+                                        <ion-item button> Custom </ion-item>
                                     </ion-select>
                                 </ion-item>
                                 
-                                <ion-item>
-                                    <ion-label>Priority</ion-label>
-                                    <ion-select interface="popover" name="priority" value="Normal">
-                                        <ion-select-option>Normal</ion-select-option>
-                                        <ion-select-option>High</ion-select-option>
-                                    </ion-select>
+                                <ion-item lines="full">
+                                    <ion-label>Flag it</ion-label>
+                                    <ion-toggle color="primary"></ion-toggle>
                                 </ion-item>
 
                                 <ion-item>
@@ -66,9 +63,21 @@
                                         <ion-select-option>Weekly</ion-select-option>
                                         <ion-select-option>Monthly</ion-select-option>
                                         <ion-select-option>Yearly</ion-select-option>
-                                        <ion-select-option>Select Days in a Week</ion-select-option>
-                                        <ion-select-option>Select Days in a Month</ion-select-option>
+                                        <ion-select-option disabled="true">Select Days in a Week</ion-select-option>
+                                        <ion-select-option disabled="true">Select Days in a Month</ion-select-option>
                                     </ion-select>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label>Reminder Type</ion-label>
+                                    <ion-select interface="popover" name="type" value="Alarm">
+                                        <ion-select-option>Alarm</ion-select-option>
+                                        <ion-select-option>Notification</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+
+                                <ion-item button lines="full">
+                                    <ion-label>Set date and time</ion-label>
                                 </ion-item>
 
                                 <ion-item>
