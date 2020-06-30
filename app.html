@@ -55,9 +55,9 @@
                                     <ion-toggle color="primary"></ion-toggle>
                                 </ion-item>
 
-                                <ion-item>
+                                <ion-item button id="userRepeat">
                                     <ion-label>Repetition</ion-label>
-                                    <ion-select interface="popover" value="Once" name="repeat">
+                                    <ion-select interface="popover" value="Once" name="repeat" id="">
                                         <ion-select-option>Once</ion-select-option>
                                         <ion-select-option>Daily</ion-select-option>
                                         <ion-select-option>Weekly</ion-select-option>
@@ -78,17 +78,17 @@
 
                                 <ion-item button id="dateButton" lines="full">
                                     <ion-label>Set Date</ion-label>
-                                    <ion-datetime min="2001" max="2030" placeholder="Select Date"></ion-datetime>
+                                    <ion-datetime min="2001" max="2030" value="" placeholder="Select Date"></ion-datetime>
                                 </ion-item>
 
                                 <ion-item button id="timeButton" lines="full">
                                     <ion-label>Set Time</ion-label>
-                                    <ion-datetime display-format="h:mm A" placeholder="Select Time"></ion-datetime>
+                                    <ion-datetime display-format="h:mm A" value="" placeholder="Select Time"></ion-datetime>
                                 </ion-item>
 
                                 <ion-item button id="dayButton" lines="full">
                                     <ion-label>Set Day</ion-label>
-                                    <ion-select multiple="true" placeholder="Select Day" id="Days">
+                                    <ion-select multiple="true" value="" placeholder="Select Day" id="Days">
                                         <ion-select-option>Monday</ion-select-option>
                                         <ion-select-option>Tuesday</ion-select-option>
                                         <ion-select-option>Wednesday</ion-select-option>
