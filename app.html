@@ -19,13 +19,13 @@
             <ion-content>
                 <ion-grid>
                     <ion-card>
-                        <ion-card-content style="padding-top: 0;">
+                        <ion-card-content style="padding-top: 0; padding-left: 1px;">
                             <ion-item>
                                 <ion-label position="floating" autocapitalize="on">Enter your task</ion-label>
                                 <ion-input clear-input type="text" id="input-reminder"></ion-input>
                             </ion-item>
                 
-                            <ion-row class="ion-align-items-end ion-justify-content-between" style="padding-top: 13px;">
+                            <ion-row class="ion-align-items-end ion-justify-content-between" style="padding-top: 13px;width: 327px;">
                                 <ion-button size="small" color="primary" id="addReminder"> 
                                     <ion-icon slot="start" name="add"></ion-icon>
                                     Add Reminder
@@ -76,17 +76,17 @@
                                     </ion-select>
                                 </ion-item>
 
-                                <ion-item button lines="full">
+                                <ion-item button id="dateButton" lines="full">
                                     <ion-label>Set Date</ion-label>
                                     <ion-datetime min="2001" max="2030" placeholder="Select Date"></ion-datetime>
                                 </ion-item>
 
-                                <ion-item button lines="full">
+                                <ion-item button id="timeButton" lines="full">
                                     <ion-label>Set Time</ion-label>
                                     <ion-datetime display-format="h:mm A" placeholder="Select Time"></ion-datetime>
                                 </ion-item>
 
-                                <ion-item button lines="full">
+                                <ion-item button id="dayButton" lines="full">
                                     <ion-label>Set Day</ion-label>
                                     <ion-select multiple="true" placeholder="Select Day" id="Days">
                                         <ion-select-option>Monday</ion-select-option>
@@ -106,45 +106,63 @@
                             </ion-list>
                         </ion-card-content>
                     </ion-card>
-                    <ion-row><!-- Recently added -->
-                        <ion-col>
-                            <ion-list>
-                                <ion-item lines="full" color="primary">
-                                    <ion-label>Recently added reminders</ion-label>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-label>HI</ion-label>
-                                </ion-item>
-                            </ion-list>
+                    <ion-row>
+                        <ion-col size="6"><!-- Schedules for toady -->
+                            <ion-card class="ion-no-margin">
+                                <ion-list class="ion-no-padding">
+                                    <ion-item lines="none" color="warning" class="ion-no-margin" style="height: 42px;">
+                                        <ion-icon slot="end" name="time-outline" size="large" class="ion-no-margin" style="padding:5px 0;height: 40px;width: 40px;"></ion-icon>
+                                        <ion-label><h1> 7 </h1></ion-label>
+                                    </ion-item>
+                                    <ion-item lines="none" color="warning" style="height: 30px;">
+                                        <ion-label class="ion-no-margin" style="padding-bottom: 40px"><h1>Scheduled</h1></ion-label>
+                                    </ion-item>
+                                </ion-list>
+                            </ion-card>
+                        </ion-col>
+                        <ion-col size="6"><!-- Completed  -->
+                            <ion-card class="ion-no-margin">
+                                <ion-list class="ion-no-padding">
+                                    <ion-item lines="none" color="success" class="ion-no-margin" style="height: 42px;">
+                                        <ion-icon slot="end" name="checkbox-outline" size="large" class="ion-no-margin" style="padding:5px 0;height: 40px;width: 40px;"></ion-icon>
+                                        <ion-label><h1> 7 </h1></ion-label>
+                                    </ion-item>
+                                    <ion-item lines="none" color="success" style="height: 30px;">
+                                        <ion-label class="ion-no-margin" style="padding-bottom: 40px"><h1>Completed</h1></ion-label>
+                                    </ion-item>
+                                </ion-list>
+                            </ion-card>
                         </ion-col>
                     </ion-row>
 
-                    <ion-row><!-- Upcomming  -->
-                        <ion-col>
-                            <ion-list>
-                                <ion-item lines="full" color="primary">
-                                    <ion-label>Upcomming reminders</ion-label>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-label>HI</ion-label>
-                                </ion-item>
-                            </ion-list>
+                    <ion-row>
+                        <ion-col size="6"><!-- All reminders -->
+                            <ion-card class="ion-no-margin">
+                                <ion-list class="ion-no-padding">
+                                    <ion-item lines="none" color="dark" class="ion-no-margin" style="height: 42px;">
+                                        <ion-icon slot="end" name="file-tray-outline" size="large" class="ion-no-margin" style="padding:5px 0;height: 40px;width: 40px;"></ion-icon>
+                                        <ion-label><h1> 7 </h1></ion-label>
+                                    </ion-item>
+                                    <ion-item lines="none" color="dark" style="height: 30px;">
+                                        <ion-label class="ion-no-margin" style="padding-bottom: 40px"><h1>All</h1></ion-label>
+                                    </ion-item>
+                                </ion-list>
+                            </ion-card>
+                        </ion-col >
+                        <ion-col size="6"><!-- Flagged  -->
+                            <ion-card class="ion-no-margin">
+                                <ion-list class="ion-no-padding">
+                                    <ion-item lines="none" color="danger" class="ion-no-margin" style="height: 42px;">
+                                        <ion-icon slot="end" name="flag-outline" size="large" class="ion-no-margin" style="padding:5px 0;height: 40px;width: 40px;"></ion-icon>
+                                        <ion-label><h1> 7 </h1></ion-label>
+                                    </ion-item>
+                                    <ion-item lines="none" color="danger" style="height: 30px;">
+                                        <ion-label class="ion-no-margin" style="padding-bottom: 40px"><h1>Flagged</h1></ion-label>
+                                    </ion-item>
+                                </ion-list>
+                            </ion-card>
                         </ion-col>
                     </ion-row>
-
-                    <ion-row><!-- Completed -->
-                        <ion-col>
-                            <ion-list>
-                                <ion-item lines="full" color="primary">
-                                    <ion-label>Completed reminders</ion-label>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-label>HI</ion-label>
-                                </ion-item>
-                            </ion-list>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
  
                 <section class="full-width">
                     <ion-button expand="full" color="secondary">Go to your reminders</ion-button>
