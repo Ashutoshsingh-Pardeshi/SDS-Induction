@@ -10,6 +10,9 @@ const inputReminder = document.getElementById("input-reminder");
 const reminderList = document.getElementById("reminderList");
 const Extensions = document.getElementById("extensions");
 const extnDescription = document.getElementById("description");
+const dateButton = document.getElementById("dateButton");
+const timeButton = document.getElementById("timeButton");
+const dayButton = document.getElementById("dayButton");
 
 var new_ionItem;
 var new_ionCard;    // The card inside the ion-item
@@ -28,6 +31,7 @@ var repetitionItem;
 var typeItem;
 var descriptionItem;
 
+var selectedRepeat;
 var Category;   // The dictionary
 var selectedCategory;   // The selected value 
 var Type;   // The dictionary
@@ -40,7 +44,13 @@ var displayTime;
 //Showing the extensions 
 addExtnBttn.addEventListener("click" ,function(){
     $(Extensions).slideToggle(500)
-    // alert("Extensions will be shown !!")
+
+    if(selectedRepeat == "Daily" || selectedRepeat == "Weekly"){
+        dateButton.setAttribute("disabled : true")
+    } else if(selectedRepeat == "Once" || selectedRepeat == "Yearly"){
+        dayButton.setAttribute("disabled : true")
+    }
+
 })
 
 addRemBttn.addEventListener("click" ,addReminder)
@@ -65,9 +75,9 @@ inputReminder.addEventListener("keypress", function(e){
 function addReminder ()
 {
     //checking for a valid input
-    if(!(inputReminder.value))
+    if(!(inputReminder.value) || !(document.getElementsByClassName("aux-input")[5].value))
     {
-        alert("You cannot add an empty reminder !!")
+        alert("You cannot leave the title and/or the time empty !!")
         return;
     }
 
@@ -151,7 +161,8 @@ function addCategory(){
 
 function addRepeat(){
     repetitionItem = document.createElement("ion-item")
-    $(repetitionItem).append('<ion-icon slot="start" size="large" name="repeat" style="margin:0">         </ion-icon><h6 style="margin-left:20px">' + document.getElementsByClassName("aux-input")[2].value + '</h6>' )
+    selectedRepeat = document.getElementsByClassName("aux-input")[2].value
+    $(repetitionItem).append('<ion-icon slot="start" size="large" name="repeat" style="margin:0">         </ion-icon><h6 style="margin-left:20px">' + selectedRepeat + '</h6>' )
     extn_body.appendChild(repetitionItem)
 }
 
