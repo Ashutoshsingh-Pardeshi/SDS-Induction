@@ -15,18 +15,22 @@
 //         //alert("Once/Yearly selected !!")
 //     }
 // }
+// 
+// IF YOU ADD AN EMPTY REMINDER, THEN COUNT SHOWS SOME ERRORS
+//Description not showing
+//Add a fab button !!!
 
 
 
-const addExtnBttn = document.getElementById("addExtensions");
-const addRemBttn = document.getElementById("addReminder");
-const inputReminder = document.getElementById("input-reminder");
-const reminderList = document.getElementById("reminderList");
-const Extensions = document.getElementById("extensions");
-const extnDescription = document.getElementById("description");
-const dateButton = document.getElementById("dateButton");
-const timeButton = document.getElementById("timeButton");
-const dayButton = document.getElementById("dayButton");
+var addExtnBttn = document.getElementById("addExtensions");
+var addRemBttn = document.getElementById("addReminder");
+var inputReminder = document.getElementById("input-reminder");
+var reminderList = document.getElementById("reminderList");
+var Extensions = document.getElementById("extensions");
+var extnDescription = document.getElementById("description");
+var dateButton = document.getElementById("dateButton");
+var timeButton = document.getElementById("timeButton");
+var dayButton = document.getElementById("dayButton");
 
 var new_ionItem;
 var new_ionLabel; // This conatins the text
@@ -47,8 +51,15 @@ var repetitionItem;
 var typeItem;
 var descriptionItem;
 
-var userRepeat; // The button from where the user will select a particular repeat
-userRepeat = document.getElementById("userRepeat");
+// The following vars are generated to reset their values. We can reset the values by setting their 'value' attribute to either something or null
+var ionSelectCategory = document.getElementById("ionSelectCategory"); 
+var ionToggleFlag = document.getElementById("ionToggleFlag");
+var ionSelectRepeat = document.getElementById("ionSelectRepeat");
+var ionSelectType = document.getElementById("ionSelectType");
+var ionDatetime_Date = document.getElementById("ionDate");
+var ionDatetime_Time = document.getElementById("ionTime");
+var ionDatetime_Day = document.getElementById("ionDay");
+
 
 var selectedRepeat; // The selected value of repeat
 var Category;   // The dictionary
@@ -60,6 +71,21 @@ var selectedDate;
 var selectedDay;
 var selectedTime;
 var displayTime;
+
+var displayScheduled = document.getElementById("displayScheduled");
+var displayCompleted = document.getElementById("displayCompleted");
+var displayAll = document.getElementById("displayAll");
+var displayFlagged = document.getElementById("displayFlagged");
+var countAll = 0;
+var countCompleted = 0;
+var countFlagged = 0;
+var countScheduled = 0; // This ones a pretty tricky one !!
+
+//Initializing all the counts
+displayScheduled.textContent = countScheduled ;
+displayCompleted.textContent = countCompleted ;
+displayAll.textContent = countAll ;
+displayFlagged.textContent = countFlagged ;
 
 //Showing the extensions 
 addExtnBttn.addEventListener("click" ,function(){
@@ -73,6 +99,7 @@ addRemBttn.addEventListener("click" ,addCategory)
 addRemBttn.addEventListener("click" ,addRepeat)
 addRemBttn.addEventListener("click" ,addType)
 addRemBttn.addEventListener("click" ,addDescribtion)
+
 //This to hide the extension div, so that it does not remain open
 addRemBttn.addEventListener("click" ,function(){
     $(Extensions).slideUp(500)
@@ -88,8 +115,7 @@ inputReminder.addEventListener("keypress", function(e){
 function addReminder ()
 {
     //checking for a valid input
-    // if(!(inputReminder.value) || !(document.getElementsByClassName("aux-input")[5].value))
-    if(!(inputReminder.value))
+    if(!(inputReminder.value) || !(document.getElementsByClassName("aux-input")[5].value))
     {
         alert("You cannot leave the title and/or the time empty !!")
         return;
@@ -103,21 +129,30 @@ function addReminder ()
     new_ionItem.appendChild(new_ionLabel)
     new_ionItem.classList.add("newItem")
     new_ionItem.setAttribute("lines", "none")
-    //appending delete icon, modify icon,undo icon, complete icon and the burger i.e. minibar
+
     smallbttns = document.createElement("span");
     
+    //appending delete icon, modify icon,undo icon, complete icon and the burger i.e. minibar
     $(smallbttns).append('<ion-button slot="end" style="margin:0" fill="clear" class="delete"><ion-icon name="trash-outline" size="large" style="height:28px;color:red"></ion-icon></ion-button>')
 
     $(smallbttns).append('<ion-button slot="end" style="margin:0" fill="clear" class="modify"><ion-icon name="pencil-sharp" size="large" style="height:28px;color:darkorange"></ion-icon></ion-button>')
 
     $(smallbttns).append('<ion-button slot="end" style="margin:0" fill="clear" class="complete"><ion-icon name="checkmark-done" size="large" style="height:28px;color:green"></ion-icon></ion-button>')
 
-    $(smallbttns).append('<ion-button slot="end" style="margin:0" fill="clear" class="undo"><ion-icon name="sync-outline" size="large" style="height:28px;color:blue;"></ion-icon></ion-button>')
-    $($(smallbttns).children()[3]).css({"display" : "none"}) // To hide the button
+    $(smallbttns).append('<ion-button slot="end" style="margin:0, width:32px" fill="clear" class="undo"><ion-icon name="sync-outline" size="large" style="height:28px;color:blue;"></ion-icon></ion-button>')
+    $($(smallbttns).children()[3]).css({"display" : "none"}) // To hide the undo button
+    $(smallbttns).css({"display" : "none"}) // To hide the button-span
 
     new_ionItem.appendChild(smallbttns);
 
+    // Fab button
+    $(new_ionItem).append('<ion-button slot="end" style="margin:0" fill="clear" id="fab"><ion-icon name="caret-back-circle-outline" size="large" style="height:28px"></ion-icon></ion-button>')
+
     $(new_ionItem).append('<ion-button slot="end" style="margin:0" fill="clear" id="burger"><ion-icon name="menu" size="large" style="height:28px"></ion-icon></ion-button>')
+
+    //The flag icon- if choosen by the user
+    $(new_ionItem).append('<ion-button slot="end" style="margin:0" fill="clear" id="burger"><ion-icon name="flag-sharp" size="large" style="height:28px;color:red"></ion-icon></ion-button>')
+    $($(new_ionItem).children()[4]).css({"display" : "none"})
 
     //Creating the extension list
     extn_list = document.createElement("ion-list")
@@ -153,18 +188,38 @@ function addReminder ()
 
     //Resetting the text values
     inputReminder.value = "";
-    return;
+    ionSelectCategory.value = "General";
+    ionToggleFlag.setAttribute("checked","false")
+    ionSelectRepeat.value = "Once";
+    ionSelectType.value = "Alarm";
+    ionDatetime_Date.value = "";
+    ionDatetime_Time.value = "";
+    ionDatetime_Day.value = "";
+
+    //Updating the countAll
+    countAll += 1;
+
+    // Updating countFlagged
+    if(document.getElementsByClassName("aux-input")[1].value == "on"){
+        countFlagged += 1;
+        displayFlagged.textContent = countFlagged;
+    }
+
+    //Updating all the counts
+    displayScheduled.textContent = countScheduled ;
+    displayAll.textContent = countAll ;
 }
 
 function addPriority(){
     priorityItem = document.createElement("ion-item")
     priorityItem.setAttribute("lines", "none")
     $(priorityItem).append('<ion-icon slot="start" size="large" name="flag-sharp" style="margin:0 5px; color:red;"></ion-icon>')
-    $(priorityItem).append(' <h4 style="margin: 0 65px; color:red ">IMPORTANT</h4> ')
+    $(priorityItem).append(' <h4 style="margin: 0 auto; color:red ">IMPORTANT</h4> ')
     $(priorityItem).append('<ion-icon slot="end" size="large" name="flag-sharp" style="margin:0 5px; color:red;"></ion-icon>')
 
     if(document.getElementsByClassName("aux-input")[1].value == "on"){
-        extn_body.appendChild(priorityItem)
+        extn_body.appendChild(priorityItem);
+        $($(new_ionItem).children()[4]).css({"display" : "block"})
     }
 }
 
@@ -187,6 +242,7 @@ function addCategory(){
 
     $(categoryItem).append(Category[selectedCategory])
     extn_body.appendChild(categoryItem)
+    selectedCategory = "";
 }
 
 function addRepeat(){
@@ -194,7 +250,6 @@ function addRepeat(){
     selectedRepeat = document.getElementsByClassName("aux-input")[2].value
     $(repetitionItem).append('<ion-icon slot="start" size="large" name="repeat" style="margin:0">         </ion-icon><h6 style="margin-left:20px">' + selectedRepeat + '</h6>' )
     extn_body.appendChild(repetitionItem)
-    document.getElementsByClassName("aux-input")[2].value = "Once"
 }
 
 function addType(){
@@ -240,17 +295,16 @@ function addType(){
         displayTime = hours + ':' + minutes  + ' PM'
     }
     // If date is missing, then displaying onlt the time
-    if ( !(selectedDate) && !(selectedDay) ){ // Display only time
+    if ( !(document.getElementsByClassName("aux-input")[4].value) && !(selectedDay) ){ 
+        // Display only time
         $(typeItem).append(Type[selectedType] + '  ( ' + displayTime + ' )</h6>')
-    }else if(!(selectedDate) && selectedDay != ""){ // Display day and time
+    }else if(!(document.getElementsByClassName("aux-input")[4].value) && selectedDay != ""){ 
+        // Display day and time
         $(typeItem).append(Type[selectedType] + '  ( ' + selectedDay + ' | ' + displayTime + ' )</h6>')
     }else{ // Display month and time
         $(typeItem).append(Type[selectedType] + '  ( ' + date + ' ' + month + ', ' + year + ' | ' + displayTime + ' )</h6>')
     }
     extn_body.appendChild(typeItem)
-    selectedDay = " "
-    selectedDate = " "
-    selectedTime = " "
 }
 
 function addDescribtion(){ // DONE !!
@@ -258,19 +312,34 @@ function addDescribtion(){ // DONE !!
     $(descriptionItem).append('<ion-icon slot="start" size="large" name="clipboard-outline" style="margin:0"></ion-icon>')
     // Importing the description text
     if(!(extnDescription.value)) { $(descriptionItem).append('<h6 style="margin: 0 20px"> --- </h6>') }
-    else { descriptionItem.append(extnDescription.value) }
+    else { $(descriptionItem).append( '<h6 style="margin: 0 20px">' + extnDescription.value + '</h6>') }
 
     extn_body.appendChild(descriptionItem)
+    extnDescription.value = "";
 }
 
 function jQuery()
 {
     // The burger button
-    $($(new_ionItem).children()[2]).click(function(){
+    $($(new_ionItem).children()[3]).click(function(){
         // Fading out the mini-buttons
-        $($(this).parent().children()[1]).fadeToggle(800)
+        $($(this).parent().children()[1]).fadeOut(100)
+        // Fading out the fab button
+        $($(this).parent().children()[2]).fadeToggle(500)
+        // Fading out the flag button
+        if(document.getElementsByClassName("aux-input")[1].value == "on"){
+            $($(this).parent().children()[4]).fadeToggle(500)
+        }
         // FadeToggling the extensionDescription ion-list
-        $($(this).parent().parent().children()[1]).fadeToggle(800)
+        $($(this).parent().parent().children()[1]).slideToggle(800)
+    })
+
+    // The fab button
+    $($(new_ionItem).children()[2]).click(function(){
+        // Sliding out the mini-buttons
+        $($(this).parent().children()[1]).animate({width: 'toggle', height : "28.05px"})
+        // Fading out the flag button for some space
+        $($(this).parent().children()[4]).animate({width: 'toggle'})
     })
 
     // Mini-delete button
@@ -290,6 +359,8 @@ function jQuery()
         // Fading out and in the big buttons
         $($($(this).parent().parent().parent().children()[1]).children()[1]).children().children(".modify,.complete").fadeOut(500)
         $($($(this).parent().parent().parent().children()[1]).children()[1]).children().children(".undo").fadeIn(500)
+        countCompleted += 1;
+        displayCompleted.textContent = countCompleted ;
     })
 
     //Mini-undo button
@@ -303,10 +374,9 @@ function jQuery()
         // Fading in and out the big-buttons
         $($($(this).parent().parent().parent().children()[1]).children()[1]).children().children(".modify,.complete").fadeIn(500)
         $($($(this).parent().parent().parent().children()[1]).children()[1]).children().children(".undo").fadeOut(500)
-
+        countCompleted -= 1;
+        displayCompleted.textContent = countCompleted ;
     })
-
-    $($($(new_ionItem).parent().children()[1]).children()[1]).children().children() //The big-buttons
 
     // Big-delete button
     $($($($(new_ionItem).parent().children()[1]).children()[1]).children().children()[0]).click(function(){
@@ -328,6 +398,8 @@ function jQuery()
         $($(this).parent().parent().parent().parent().children().children()[1]).children(".modify, .complete").fadeOut(500, function(){
             $(this).parent().children(".undo").fadeIn(500)
         })
+        countCompleted += 1;
+        displayCompleted.textContent = countCompleted ;
     })
 
     // Big-undo button
@@ -344,6 +416,8 @@ function jQuery()
         $($(this).parent().parent().parent().parent().children().children()[1]).children(".undo").fadeOut(500, function(){
             $(this).parent().children(".modify, .complete").fadeIn(500)
         })
+        countCompleted -= 1; 
+        displayCompleted.textContent = countCompleted ;
     })
 
 }
