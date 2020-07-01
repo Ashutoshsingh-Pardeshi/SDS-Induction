@@ -421,11 +421,3 @@ function jQuery()
     })
 
 }
-
-//
-//
-//
-//
-//
-//<ion-icon name="notifications-outline"></ion-icon>
-//
