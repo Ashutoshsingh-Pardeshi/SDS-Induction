@@ -81,6 +81,14 @@ var countCompleted = 0;
 var countFlagged = 0;
 var countScheduled = 0; // This ones a pretty tricky one !!
 
+var bigModify;
+var smallModify;
+
+var categoryList = document.createElement("ion-list");
+var repeatList = document.createElement("ion-list");
+var typeList = document.createElement("ion-list"); // VERY VERY COMPLICATED
+var descriptionList = document.createElement("ion-list");
+
 //Initializing all the counts
 displayScheduled.textContent = countScheduled ;
 displayCompleted.textContent = countCompleted ;
@@ -92,6 +100,7 @@ addExtnBttn.addEventListener("click" ,function(){
     $(Extensions).slideToggle(500);
 })
 
+// Adding the events to the addRemBttn
 addRemBttn.addEventListener("click" ,addReminder)
 addRemBttn.addEventListener("click" ,jQuery)
 addRemBttn.addEventListener("click" ,addPriority)
@@ -99,6 +108,7 @@ addRemBttn.addEventListener("click" ,addCategory)
 addRemBttn.addEventListener("click" ,addRepeat)
 addRemBttn.addEventListener("click" ,addType)
 addRemBttn.addEventListener("click" ,addDescribtion)
+addRemBttn.addEventListener("click" ,modification)
 
 //This to hide the extension div, so that it does not remain open
 addRemBttn.addEventListener("click" ,function(){
@@ -115,7 +125,8 @@ inputReminder.addEventListener("keypress", function(e){
 function addReminder ()
 {
     //checking for a valid input
-    if(!(inputReminder.value) || !(document.getElementsByClassName("aux-input")[5].value))
+    // if(!(inputReminder.value) || !(document.getElementsByClassName("aux-input")[5].value))
+    if(!(inputReminder.value) )
     {
         alert("You cannot leave the title and/or the time empty !!")
         return;
@@ -133,7 +144,7 @@ function addReminder ()
     smallbttns = document.createElement("span");
     
     //appending delete icon, modify icon,undo icon, complete icon and the burger i.e. minibar
-    $(smallbttns).append('<ion-button slot="end" style="margin:0" fill="clear" class="delete"><ion-icon name="trash-outline" size="large" style="height:28px;color:red"></ion-icon></ion-button>')
+    $(smallbttns).append('<ion-button slot="end" style="margin:0" fill="clear" class="delete"><ion-icon key="trash-outline" size="large" style="height:28px;color:red"></ion-icon></ion-button>')
 
     $(smallbttns).append('<ion-button slot="end" style="margin:0" fill="clear" class="modify"><ion-icon name="pencil-sharp" size="large" style="height:28px;color:darkorange"></ion-icon></ion-button>')
 
@@ -225,6 +236,8 @@ function addPriority(){
 
 function addCategory(){
     categoryItem = document.createElement("ion-item")
+    categoryItem.setAttribute("lines", "inset")
+
     selectedCategory = document.getElementsByClassName("aux-input")[0].value
     Category = {
         "General" : '<ion-icon slot="start" size="large" style="margin:0" name="apps-outline"></ion-icon><h6 style="margin-left:20px">General</h6>',
@@ -247,8 +260,10 @@ function addCategory(){
 
 function addRepeat(){
     repetitionItem = document.createElement("ion-item")
+    repetitionItem.setAttribute("lines", "inset")
     selectedRepeat = document.getElementsByClassName("aux-input")[2].value
     $(repetitionItem).append('<ion-icon slot="start" size="large" name="repeat" style="margin:0">         </ion-icon><h6 style="margin-left:20px">' + selectedRepeat + '</h6>' )
+            
     extn_body.appendChild(repetitionItem)
 }
 
@@ -309,6 +324,7 @@ function addType(){
 
 function addDescribtion(){ // DONE !!
     descriptionItem = document.createElement("ion-item")
+    descriptionItem.setAttribute("lines", "inset")
     $(descriptionItem).append('<ion-icon slot="start" size="large" name="clipboard-outline" style="margin:0"></ion-icon>')
     // Importing the description text
     if(!(extnDescription.value)) { $(descriptionItem).append('<h6 style="margin: 0 20px"> --- </h6>') }
@@ -419,5 +435,250 @@ function jQuery()
         countCompleted -= 1; 
         displayCompleted.textContent = countCompleted ;
     })
+}
+
+// A helper function - to set attributes
+function setAttributes(element, attribute) {
+    for(var key in attribute) {
+      element.setAttribute(key, attribute[key]);
+    }
+}
+
+// All variables that are being used to carry out the modification process
+var modifyRep ; // Name of the ion-items
+var modifyCat ; // Name of the ion-items
+var modifyDes ; // Name of the ion-items
+var modifyPri ; // Name of the ion-items
+var modifyIonLabelCat ; // Label of the input-text/select
+var modifyIonLabelRep ; // Label of the input-text/select
+var modifyIonLabelDes ; // Label of the input-text/select
+var modifyIonLabelPri ; // Label of the input-text/select
+var modifyBttnCat ; // The respective okay buttons
+var modifyBttnRep ; // The respective okay buttons
+var modifyBttnDes ; // The respective okay buttons
+var modifyBttnPri ; // The respective okay buttons
+var modifySelectCategory = document.getElementById("modifySelectCategory"); 
+var modifyTogglePri = document.getElementById("modifyToggleFlag");
+var modifySelectRepeat = document.getElementById("modifySelectRepeat");
+var modifySelectType = document.getElementById("modifySelectType");
+var modifyDate = document.getElementById("modifyDate");
+var modifyTime = document.getElementById("modifyTime");
+var modifyDay = document.getElementById("modifyDay");
+var modifyInputDes ; 
+var selectedCatValue;
+var selectedRepValue;
+var selectedDesValue;
+
+
+function modification(){
+    var modCount = 0;
+
+    //Big-modify button
+    
+        $($($($(new_ionItem).parent().children()[1]).children()[1]).children().children()[1]).click(function(){
+            $(this).fadeOut(500)
+        })
+
+        //Category
+        $($($($(new_ionItem).parent().children()[1]).children()[1]).children().children()[1]).click(function(){
+            // Label
+            modifyIonLabelCat = document.createElement("ion-label")
+            labelAttr = {
+                "position" : "floating",
+                "aoutocapitalize" : "on"
+            }
+            setAttributes(modifyIonLabelCat, labelAttr)
+            modifyIonLabelCat.textContent = "Enter modified text"; 
+
+            // Okay button
+            modifyBttnCat = document.createElement("ion-button")
+            okayAttr = {
+                "size" : "small",
+                "slot" : "end",
+                "shape" : "round",
+                "color" : "medium",
+                "type" : "submit"
+            }
+            setAttributes(modifyBttnCat, okayAttr)
+            modifyBttnCat.textContent = "Okay"
+            $(modifyBttnCat).css({"margin-top" : "13px"})
+            
+            // Creating the ion-item
+            modifyCat = document.createElement("ion-item");
+            
+            // Calling the ion-select from app.html and appending it to the ion-item key-modifyCat.
+            modifyCat.append(modifyIonLabelCat , modifySelectCategory, modifyBttnCat)
+
+            //Removing the previous value the user had selected.
+            $($($($(this).parent().parent().parent().children()[0]).children()[0]).children()[1]).remove()
+
+            // Now appending the modify-ion-item to the place where the previous value was being displayed 
+            $($($(this).parent().parent().parent().children()[0]).children()[0]).append(modifyCat)
+
+            //After the user has selected the new value, he/she will click okay-button. 
+            //Thus, the following event will be triggerred and the display will be restored back to normal.
+            $(modifyBttnCat).click(function(){
+                modCount += 1;
+                console.log("modCount = ", modCount);
+                if(modCount == 3){
+                    $($($(this).parent().parent().parent().parent().children()[1]).children().children()[1]).fadeIn(500);
+                    modCount = 0 ;
+                }
+                selectedCatValue = modifySelectCategory.value
+                $($(this).parent().parent().children()[0]).remove()
+                $(this).parent().parent().append(Category[selectedCatValue])
+                $($(this).parent().parent().children()[0]).remove()
+                modifySelectCategory.value="General"
+            })
+        })
+
+        //Repeatition
+        $($($($(new_ionItem).parent().children()[1]).children()[1]).children().children()[1]).click(function(){
+            // Label
+            modifyIonLabelRep = document.createElement("ion-label")
+            labelAttr = {
+                "position" : "floating",
+                "aoutocapitalize" : "on"
+            }
+            setAttributes(modifyIonLabelRep, labelAttr)
+            modifyIonLabelRep.textContent = "Enter modified text"; 
+
+            // Okay button
+            modifyBttnRep = document.createElement("ion-button")
+            okayAttr = {
+                "size" : "small",
+                "slot" : "end",
+                "shape" : "round",
+                "color" : "medium",
+                "type" : "submit"
+            }
+            setAttributes(modifyBttnRep, okayAttr)
+            modifyBttnRep.textContent = "Okay"
+            $(modifyBttnRep).css({"margin-top" : "13px"})
+        
+            // Creating the ion-item
+            modifyRep = document.createElement("ion-item");    
+
+            // Calling the ion-select from app.html and appending it to the ion-item key-modifyRep.
+            modifyRep.append(modifyIonLabelRep, modifySelectRepeat, modifyBttnRep)
+
+            //Removing the previous value the user had selected.
+            $($($($(this).parent().parent().parent().children()[0]).children()[1]).children()[1]).remove()
+
+
+            // Now appending the modify-ion-item to the place where the previous value was being displayed 
+            $($($(this).parent().parent().parent().children()[0]).children()[1]).append(modifyRep)
+
+            //After the user has selected the new value, he/she will click okay-button. 
+            //Thus, the following event will be triggerred and the display will be restored back to normal.
+            $(modifyBttnRep).click(function(){
+                modCount += 1;
+                console.log("modCount = ", modCount);
+                if(modCount == 3){
+                    $($($(this).parent().parent().parent().parent().children()[1]).children().children()[1]).fadeIn(500);
+                    modCount = 0 ;
+                }
+                selectedRepValue = modifySelectRepeat.value
+                $($(this).parent().parent().children()[0]).remove()
+                $(this).parent().parent().append('<ion-icon slot="start" size="large" name="repeat" style="margin:0"></ion-icon><h6 style="margin-left:20px">' + selectedRepValue + '</h6>')
+                $($(this).parent().parent().children()[0]).remove()
+                modifySelectRepeat.value = "Once"
+            })
+        })
+
+        // Description
+        $($($($(new_ionItem).parent().children()[1]).children()[1]).children().children()[1]).click(function(){
+            // Label
+            modifyIonLabelDes = document.createElement("ion-label")
+            labelAttr = {
+                "position" : "floating",
+                "aoutocapitalize" : "on"
+            }
+            setAttributes(modifyIonLabelDes, labelAttr)
+            modifyIonLabelDes.textContent = "Enter modified text"; 
+
+            // Okay button
+            modifyBttnDes = document.createElement("ion-button")
+            okayAttr = {
+                "size" : "small",
+                "slot" : "end",
+                "shape" : "round",
+                "color" : "medium",
+                "type" : "submit"
+            }
+            setAttributes(modifyBttnDes, okayAttr)
+            modifyBttnDes.textContent = "Okay"
+            $(modifyBttnDes).css({"margin-top" : "13px"})
+
+            // Input
+            modifyInputDes = document.createElement("ion-input")
+            modifyInputDes.value = $($($($(this).parent().parent().parent().children()[0]).children()[3]).children()[1]).text()
+
+            // Creating the ion-item
+            modifyDes = document.createElement("ion-item");    
+
+            // Calling the ion-select from app.html and appending it to the ion-item key-modifyDes.
+            modifyDes.append(modifyIonLabelDes, modifyInputDes, modifyBttnDes)
+
+            //Removing the previous value the user had selected.
+            $($($($(this).parent().parent().parent().children()[0]).children()[3]).children()[1]).remove()
+
+            // Now appending the modify-ion-item to the place where the previous value was being displayed 
+            $($($(this).parent().parent().parent().children()[0]).children()[3]).append(modifyDes)
+
+            //After the user has selected the new value, he/she will click okay-button. 
+            //Thus, the following event will be triggerred and the display will be restored back to normal.
+            $(modifyBttnDes).click(function(){
+                modCount += 1;
+                console.log("modCount = ", modCount);
+                if(modCount == 3){
+                    $($($(this).parent().parent().parent().parent().children()[1]).children().children()[1]).fadeIn(500)
+                    modCount = 0 ;
+                }
+                selectedDesValue = modifyInputDes.value
+                if(!(selectedDesValue)) { 
+                    $(this).parent().parent().append('<h6 style="margin: 0 20px"> --- </h6>') 
+                }
+                else { 
+                    $(this).parent().parent().append( '<h6 style="margin: 0 20px">' + selectedDesValue + '</h6>')
+                } 
+                selectedDesValue = ""
+                $(this).parent().parent().append()
+                $($(this).parent().parent().children()[1]).remove()
+            })
+        })
+
+        if(document.getElementsByClassName("aux-input")[1].value == "on"){
+            $($($($(new_ionItem).parent().children()[1]).children()[1]).children().children()[1]).click(function(){
+                //Creating the ion-item
+                modifyPri = document.createElement("ion-item")
+
+                //Label
+                modifyIonLabelPri = document.createElement("ion-label")
+
+                // Okay button
+                modifyBttnPri = document.createElement("ion-button")
+                okayAttr = {
+                    "size" : "small",
+                    "slot" : "end",
+                    "shape" : "round",
+                    "color" : "medium",
+                    "type" : "submit"
+                }
+                setAttributes(modifyBttnPri, okayAttr)
+                modifyBttnPri.textContent = "Okay"
+                $(modifyBttnPri).css({"margin-top" : "13px"})
+
+                // Calling the ion-toggle from app.html and appending it to the ion-item-modifyPri.
+                modifyPri.append(modifyIonLabelPri, modifyTogglePri, modifyBttnPri);
+                
+                //Removing the previous value the user had selected.
+                $($($($(this).parent().parent().parent().children()[0]).children()[1]).children()[1]).remove()
+
+            })
+        }
+
+    //Small-modify button
 
 }
+
