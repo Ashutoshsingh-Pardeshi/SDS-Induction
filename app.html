@@ -8,6 +8,11 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"/>
         <link rel="stylesheet" href="app.css">
         <title>Reminder App</title>
+        <script type="module">
+        //For the alert
+        import { alertController } from 'https://cdn.jsdelivr.net/npm/@ionic/core@next/dist/ionic/index.esm.js';
+        window.alertController = alertController;
+        </script>
     </head>
     <body>
         <ion-app>
@@ -39,7 +44,7 @@
                             <ion-list id="extensions" style="display: none;"><!-- Extensions -->
                                 <ion-item>
                                     <ion-label>Category</ion-label>
-                                    <ion-select interface="popover" value="General" name="category" id="ionSelectCategory">
+                                    <ion-select cancel-text="" value="General" name="category" id="ionSelectCategory">
                                         <ion-select-option>General</ion-select-option>
                                         <ion-select-option>Home</ion-select-option>
                                         <ion-select-option>Work</ion-select-option>
@@ -57,7 +62,7 @@
 
                                 <ion-item button id="userRepeat">
                                     <ion-label>Repetition</ion-label>
-                                    <ion-select interface="popover" value="Once" name="repeat" id="ionSelectRepeat">
+                                    <ion-select cancel-text="" value="Once" name="repeat" id="ionSelectRepeat">
                                         <ion-select-option>Once</ion-select-option>
                                         <ion-select-option>Daily</ion-select-option>
                                         <ion-select-option>Weekly</ion-select-option>
@@ -70,25 +75,20 @@
 
                                 <ion-item>
                                     <ion-label>Reminder Type</ion-label>
-                                    <ion-select interface="popover" name="type" value="Alarm" id="ionSelectType">
+                                    <ion-select cancel-text="" name="type" value="Alarm" id="ionSelectType">
                                         <ion-select-option>Alarm</ion-select-option>
                                         <ion-select-option>Notification</ion-select-option>
                                     </ion-select>
                                 </ion-item>
 
-                                <ion-item button id="dateButton" lines="full">
-                                    <ion-label>Set Date</ion-label>
-                                    <ion-datetime min="2001" max="2030" placeholder="Select Date" id="ionDate"></ion-datetime>
-                                </ion-item>
-
                                 <ion-item button id="timeButton" lines="full">
-                                    <ion-label>Set Time</ion-label>
-                                    <ion-datetime display-format="h:mm A" placeholder="Select Time" id="ionTime"></ion-datetime>
+                                    <ion-label>Date and Time</ion-label>
+                                    <ion-datetime min="2001" max="2030" display-format = "MMM D, YY | h:mm A" placeholder="Select Date and Time" id="ionDate"></ion-datetime>
                                 </ion-item>
 
-                                <ion-item button id="dayButton" lines="full">
+                                <ion-item button disabled="true" id="dayButton" lines="full">
                                     <ion-label>Set Day</ion-label>
-                                    <ion-select multiple="true" placeholder="Select Day" id="ionDay">
+                                    <ion-select cancel-text="" placeholder="Select Day" id="ionDay">
                                         <ion-select-option> Monday</ion-select-option>
                                         <ion-select-option> Tuesday</ion-select-option>
                                         <ion-select-option> Wednesday</ion-select-option>
@@ -186,6 +186,8 @@
                         </ion-col>
                     </ion-row>
                 </ion-grid>
+
+                <ion-button id="button">Button</ion-button>
             </ion-content>
         </ion-app>
 
@@ -220,9 +222,7 @@
                 </ion-select>
             </ion-item>
 
-            <ion-datetime min="2001" max="2030" placeholder="Select Date" id="modifyDate"></ion-datetime>
-
-            <ion-datetime display-format="h:mm A" placeholder="Select Time" id="modifyTime"></ion-datetime>
+            <ion-datetime  min="2001" max="2030" display-format = "MMM D, YY | h:mm A" placeholder="Select Date and Time" id="modifyTime"></ion-datetime>
 
             <ion-select multiple="true" placeholder="Select Day" id="modifyDay">
                 <ion-select-option> Monday</ion-select-option>
