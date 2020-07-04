@@ -84,7 +84,13 @@ var displayScheduled = document.getElementById("displayScheduled"),
 
 var bigModify;
 var smallModify;
+
+// The audio clip
+var alarmSound = new Audio()
+alarmSound.src = "alarm.mp3"
+alarmSound.loop = "true"
 var alarmTitle;
+var alarmDescription;
 var listIndex = 0;
 
 //Initializing all the counts
@@ -250,6 +256,9 @@ function addReminder ()
     //Appending the final card to the list
     reminderList.appendChild(new_ionCard)
 
+    //Adding alarm message
+    alarmDescription = extnDescription.value
+
     //Resetting the text values
     inputReminder.value = "";
     ionSelectCategory.value = "General";
@@ -269,7 +278,6 @@ function addReminder ()
     }
 
     //Updating all the counts
-    displayScheduled.textContent = countScheduled ;
     displayAll.textContent = countAll ;
 }
 
@@ -303,7 +311,7 @@ function addCategory(){
 
         "Personal" : '<ion-icon slot="start" size="large" style="margin:0" name="person-outline"></ion-icon><h6 style="margin-left:20px">Personal</h6>',
 
-        "Birthday" : '',
+        "Birthday" : '<i class="fas fa-birthday-cake" style="font-size:29px;color: #585555c7;margin-left:5px"></i><h6 style="margin-left:20px">Birthday</h6>',
 
         "Fest" : '<ion-icon slot="start" size="large" style="margin:0" name="calendar-outline"></ion-icon><h6 style="margin-left:20px">Festival / Holiday</h6>'
     }
@@ -372,6 +380,9 @@ function addTime(){
     $($(timeItem).children()[2]).css({display : "none"})
     displayTime = ""
 
+    var Newdate = new Date()
+    if (Newdate.getDate() == date && Newdate.getMonth() == selectedTime.getMonth() && Newdate.getFullYear() == year)
+    { countScheduled ++; displayScheduled.textContent = countScheduled ; }
     extn_body.appendChild(timeItem)
 
 }
@@ -412,13 +423,12 @@ function setAlarm(){
         reminderList.lastChild.remove();
         return;
     }
-    // The audio clip
-    var alarmSound = new Audio()
-    alarmSound.src = "alarm.mp3"
 
+    console.log(alarmDescription)
    // create an Alarm 
     var alert = document.createElement("ion-alert");
     alert.header = alarmTitle ,
+    alert.message = alarmDescription ,
     alert.buttons = [
         {
             text : "Dismiss",
@@ -433,7 +443,7 @@ function setAlarm(){
         {
             text : "Snooze",
             handler : () => {
-                console.log("Snoozed for 2 min.")
+                console.log("Snoozed for 5 mins.")
                 alarmSound.pause(); // This pauses the alarm
                 alarmSound.currentTime = 0 // This sets the track to 0
                 temp = alertNum
@@ -446,7 +456,7 @@ function setAlarm(){
                         alarmSound.currentTime = 0
                     } , 5000)
                     return ($(allAlarms)[temp]).present()
-                } , 120000)
+                } , 300000)
                 alertNum ++ ;
             }
         }
@@ -497,6 +507,9 @@ function jQuery()
     // Mini-delete button
     $($($(new_ionItem).children()[1]).children()[0]).click(function(){
         $(this).parent().parent().parent().remove()
+        //Removing the alarm
+        var num = $($(this).parent().parent().parent().children()[2]).text()
+        clearTimeout(allTimers[num]);
     })
 
     // Mini-complete button
@@ -504,6 +517,10 @@ function jQuery()
         $(this).parent().children(".modify, .complete").fadeOut(500, function(){
             $($(this).parent().children()[3]).fadeIn(800)
         })
+        //Removing the alarm
+        var num = $($(this).parent().parent().parent().children()[2]).text()
+        clearTimeout(allTimers[num]);
+
         // Line through the title of the reminder
         $($($(this).parent().parent().parent().children()[0]).children()[0]).css({
             textDecoration : "line-through"
@@ -533,6 +550,9 @@ function jQuery()
     // Big-delete button
     $($($($(new_ionItem).parent().children()[1]).children()[1]).children().children()[0]).click(function(){
         $(this).parent().parent().parent().parent().remove()
+        //Removing the alarm
+        var num = $($(this).parent().parent().parent().parent().children()[2]).text()
+        clearTimeout(allTimers[num]);
     })
 
     // Big-complete button
@@ -541,6 +561,9 @@ function jQuery()
         $($(this).parent().parent().parent().parent().children().children()[0]).css({
             textDecoration : "line-through"
         })
+        //Removing the alarm
+        var num = $($(this).parent().parent().parent().parent().children()[2]).text()
+        clearTimeout(allTimers[num]);
         // Fading in Big nuttons
         $(this).parent().children(".modify, .complete").fadeOut(500, function(){
             // Fading in the Big-undo button
@@ -1266,7 +1289,6 @@ function modTime(){
         //After the user has selected the new value, he/she will click okay-button. 
         //Thus, the following event will be triggerred and the display will be restored back to normal.
         $(modifyBttnTime).click(function(){
-
             //Removing the previous alarm
             var num = $($(this).parent().parent().parent().parent().parent().children()[2]).text()
             clearTimeout(allTimers[num]);
@@ -1306,6 +1328,8 @@ function modTime(){
             else if( hours == 12 && minutes > 0 ){
                 displayTime = hours + ':' + minutes  + ' PM'
             }
+            var header = $($($(this).parent().parent().parent().parent().parent().children()[0]).children()[0]).text()
+            var description = $($(this).parent().parent().parent().children()[6]).text()
             $($(this).parent().parent().children()[0]).remove()
             $(this).parent().parent().append('<ion-icon slot="start" size="large" name="today-outline" style="margin:0"></ion-icon><h6 style="margin-left:20px">' + month + " " + date + ", " + year + " | " +displayTime + '</h6>')
             $(this).parent().parent().append('<p>' + selectedTimeValue + '</p>')
@@ -1314,17 +1338,21 @@ function modTime(){
             timeVar = selectedTimeValue ;
 
             //Creating the alarm
-            var alarmSound = new Audio()
-            alarmSound.src = "alarm.mp3"
 
             var now = new Date()
-            now.setSeconds(0)
+            console.log( "now time inside modifybttn = " + now.getTime())
             selectedTimeValue.setSeconds(0)
+            console.log( "selected time inside modifybttn = " + selectedTimeValue.getTime())
+            if (now.getDate() == selectedTimeValue.getDate() && now.getMonth() == selectedTimeValue.getMonth() && now.getFullYear() == selectedTimeValue.getFullYear())
+            { countScheduled ++; displayScheduled.textContent = countScheduled ; }
+            else { countScheduled -- ; displayScheduled.textContent = countScheduled ; }
 
-            var header = $($($(this).parent().parent().parent().parent().parent().children()[0]).children()[0]).text()
+            console.log("header inside the mofify bttn = ", header)
+            console.log("description inside the mofify bttn = ", description)
             setTimeout( function(){
             var alert = document.createElement("ion-alert");
             alert.header =  header ,
+            alert.message = description ,
             alert.buttons = [
                 {
                     text : "Dismiss",
@@ -1358,6 +1386,7 @@ function modTime(){
                 }
             ]
             document.body.append(alert)
+            alarmSound.play()
             return alert.present()
             }, (selectedTimeValue.getTime() - now.getTime()))
 
@@ -1421,25 +1450,24 @@ function modTime(){
             else if( hours == 12 && minutes > 0 ){
                 displayTime = hours + ':' + minutes  + ' PM'
             }
+            var header = $($($(this).parent().parent().parent().parent().parent().children()[0]).children()[0]).text()
+            var description = $($(this).parent().parent().parent().children()[6]).text()
             $($(this).parent().parent().children()[0]).remove()
             $(this).parent().parent().append('<ion-icon slot="start" size="large" name="today-outline" style="margin:0"></ion-icon><h6 style="margin-left:20px">' + month + " " + date + ", " + year + " | " +displayTime + '</h6>')
             $(this).parent().parent().append('<p>' + selectedTimeValue + '</p>')
             $($(this).parent().parent().children()[3]).css({"display" : 'none'})
             $($(this).parent().parent().children()[0]).remove()
             timeVar = selectedTimeValue ;
-
-            //Creating the alarm
-            var alarmSound = new Audio()
-            alarmSound.src = "alarm.mp3"
+            console.log("description inside the mofify bttn = ", description)
 
             var now = new Date()
-            now.setSeconds(0)
-            selectedTimeValue.setSeconds(0)
-
-            var header = $($($(this).parent().parent().parent().parent().parent().children()[0]).children()[0]).text()
+            if (now.getDate() == selectedTimeValue.getDate() && now.getMonth() == selectedTimeValue.getMonth() && now.getFullYear() == selectedTimeValue.getFullYear())
+            { countScheduled ++; displayScheduled.textContent = countScheduled ; }
+            else { countScheduled -- ; displayScheduled.textContent = countScheduled ; }
             setTimeout( function(){
             var alert = document.createElement("ion-alert");
             alert.header =  header,
+            alert.message = description,
             alert.buttons = [
                 {
                     text : "Dismiss",
@@ -1482,5 +1510,33 @@ function modTime(){
 
 var button = document.getElementById("button")
 
-button.addEventListener("click", function(){console.log("Clicked 1")})
-button.addEventListener("mouseup", function(){console.log("Clicked 2")})
+button.addEventListener("click", presentAlertPrompt)
+
+var mssg1 = "Message 1"
+var mssg2 = "Message 2"
+var mssg3 = "Message 3"
+
+function presentAlertPrompt() {
+    const alert = document.createElement('ion-alert');
+    alert.cssClass = 'my-custom-class';
+    alert.header = 'Prompt!';
+    alert.message = mssg1 + "<p></p>" + mssg2 + "<p></p>" + mssg3
+    alert.buttons = [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: () => {
+          console.log('Confirm Cancel')
+        }
+      }, {
+        text: 'Ok',
+        handler: () => {
+          console.log('Confirm Ok')
+        }
+      }
+    ];
+  
+    document.body.appendChild(alert);
+    return alert.present();
+  }
