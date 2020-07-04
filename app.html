@@ -32,11 +32,11 @@
                             </ion-item>
                 
                             <ion-row class="ion-align-items-end ion-justify-content-between" style="padding-top: 13px;">
-                                <ion-button size="small" color="primary" id="addReminder"> 
+                                <ion-button size="small" color="secondary" id="addReminder"> 
                                     <ion-icon slot="start" name="add"></ion-icon>
                                     Add Reminder
                                 </ion-button>
-                                <ion-button size="small" color="primary" id="addExtensions"> 
+                                <ion-button size="small" color="tertiary" id="addExtensions"> 
                                     <ion-icon slot="start" name="list-outline"></ion-icon>
                                     Add Extensions
                                 </ion-button>
@@ -112,11 +112,11 @@
                         <ion-col size="6"><!-- Schedules for toady -->
                             <ion-card class="ion-no-margin">
                                 <ion-list class="ion-no-padding">
-                                    <ion-item lines="none" color="warning" class="ion-no-margin" style="height: 42px;">
+                                    <ion-item lines="none" class="ion-no-margin" style="height: 42px; --background : #ffdb02">
                                         <ion-icon slot="end" name="time-outline" size="large" class="ion-no-margin" style="padding:5px 0;height: 40px;width: 40px;"></ion-icon>
                                         <ion-label><h1 id="displayScheduled"></h1></ion-label>
                                     </ion-item>
-                                    <ion-item lines="none" color="warning" style="height: 30px;">
+                                    <ion-item lines="none" style="height: 30px;--background : #ffdb02">
                                         <ion-label class="ion-no-margin" style="padding-bottom: 40px"><h1>Scheduled</h1></ion-label>
                                     </ion-item>
                                 </ion-list>
@@ -125,11 +125,11 @@
                         <ion-col size="6"><!-- Completed  -->
                             <ion-card class="ion-no-margin">
                                 <ion-list class="ion-no-padding">
-                                    <ion-item lines="none" color="success" class="ion-no-margin" style="height: 42px;">
-                                        <ion-icon slot="end" name="checkbox-outline" size="large" class="ion-no-margin" style="padding:5px 0;height: 40px;width: 40px;"></ion-icon>
+                                    <ion-item lines="none"  class="ion-no-margin" style="height: 42px;--background : #03d41e">
+                                        <ion-icon slot="end" name="checkbox-outline" size="large" class="ion-no-margin" style="padding:5px 0;height: 40px;width: 40px;--color:black"></ion-icon>
                                         <ion-label><h1 id="displayCompleted"></h1></ion-label>
                                     </ion-item>
-                                    <ion-item lines="none" color="success" style="height: 30px;">
+                                    <ion-item lines="none" style="height: 30px;--background : #03d41e;">
                                         <ion-label class="ion-no-margin" style="padding-bottom: 40px"><h1>Completed</h1></ion-label>
                                     </ion-item>
                                 </ion-list>
@@ -154,11 +154,11 @@
                         <ion-col size="6"><!-- Flagged  -->
                             <ion-card class="ion-no-margin">
                                 <ion-list class="ion-no-padding">
-                                    <ion-item lines="none" color="danger" class="ion-no-margin" style="height: 42px;">
+                                    <ion-item lines="none" class="ion-no-margin" style="height: 42px;--background : #ff0000de">
                                         <ion-icon slot="end" name="flag-outline" size="large" class="ion-no-margin" style="padding:5px 0;height: 40px;width: 40px;"></ion-icon>
                                         <ion-label><h1 id="displayFlagged"></h1></ion-label>
                                     </ion-item>
-                                    <ion-item lines="none" color="danger" style="height: 30px;">
+                                    <ion-item lines="none" style="height: 30px;--background : #ff0000de">
                                         <ion-label class="ion-no-margin" style="padding-bottom: 40px"><h1>Flagged</h1></ion-label>
                                     </ion-item>
                                 </ion-list>
@@ -169,7 +169,7 @@
                 <ion-grid><!-- The new page starts from here -->
                     <ion-row>
                         <ion-col>
-                            <ion-list>
+                            <ion-list class="ion-no-padding">
                                 <ion-item color="primary">
                                     <ion-label>Your Reminders</ion-label>
                                 </ion-item>
@@ -179,12 +179,10 @@
 
                     <ion-row>
                         <ion-col>
-                            <ion-list id="reminderList"></ion-list>
+                            <ion-list id="reminderList" class="ion-no-padding"></ion-list>
                         </ion-col>
                     </ion-row>
                 </ion-grid>
-
-                <ion-button id="button">Button</ion-button>
             </ion-content>
         </ion-app>
 
