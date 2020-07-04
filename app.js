@@ -1507,36 +1507,3 @@ function modTime(){
         })
     })
 }
-
-var button = document.getElementById("button")
-
-button.addEventListener("click", presentAlertPrompt)
-
-var mssg1 = "Message 1"
-var mssg2 = "Message 2"
-var mssg3 = "Message 3"
-
-function presentAlertPrompt() {
-    const alert = document.createElement('ion-alert');
-    alert.cssClass = 'my-custom-class';
-    alert.header = 'Prompt!';
-    alert.message = mssg1 + "<p></p>" + mssg2 + "<p></p>" + mssg3
-    alert.buttons = [
-      {
-        text: 'Cancel',
-        role: 'cancel',
-        cssClass: 'secondary',
-        handler: () => {
-          console.log('Confirm Cancel')
-        }
-      }, {
-        text: 'Ok',
-        handler: () => {
-          console.log('Confirm Ok')
-        }
-      }
-    ];
-  
-    document.body.appendChild(alert);
-    return alert.present();
-  }
