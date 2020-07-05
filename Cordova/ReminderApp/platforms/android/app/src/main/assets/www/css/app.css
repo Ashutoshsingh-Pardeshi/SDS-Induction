@@ -1,0 +1,9 @@
+ion-toolbar{
+    /* --background : #ff8800; */
+    --background : linear-gradient(to bottom right , rgba(22, 0, 255, 0.92), #00ffff);
+    --color : #ffffff;
+}
+
+ion-content{
+    --background:  #0093ff61;
+}
