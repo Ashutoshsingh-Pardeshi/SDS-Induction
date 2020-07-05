@@ -275,6 +275,12 @@ function addReminder ()
         displayFlagged.textContent = countFlagged;
     }
 
+    if(countFlagged < 0)
+    {
+        countFlagged = 0 ;
+        displayFlagged.textContent = countFlagged ;
+    }
+
     //Updating all the counts
     displayAll.textContent = countAll ;
 }
@@ -508,6 +514,16 @@ function jQuery()
         //Removing the alarm
         var num = $($(this).parent().parent().parent().children()[2]).text()
         clearTimeout(allTimers[num]);
+        // Count All
+        countAll -- ;
+        displayAll.textContent = countAll
+        // Managing the schedule button
+        var Newdate = new Date()
+        var selectTime = $($($($(this).parent().parent().parent().children()[1]).children()[0]).children()[4]).children()[2].text()
+        var date = selectTime.getDate();
+        var year = selectTime.getFullYear();
+        if (Newdate.getDate() == date && Newdate.getMonth() == selectedTime.getMonth() && Newdate.getFullYear() == year)
+        { countScheduled --; displayScheduled.textContent = countScheduled ; }
     })
 
     // Mini-complete button
@@ -551,6 +567,16 @@ function jQuery()
         //Removing the alarm
         var num = $($(this).parent().parent().parent().parent().children()[2]).text()
         clearTimeout(allTimers[num]);
+        // Count All
+        countAll -- ;
+        displayAll.textContent = countAll
+        // Managing the schedule button
+        var Newdate = new Date()
+        var selectTime = $($($(this).parent().parent().parent().children()[0]).children()[4]).children()[2].text()
+        var date = selectTime.getDate();
+        var year = selectTime.getFullYear();
+        if (Newdate.getDate() == date && Newdate.getMonth() == selectedTime.getMonth() && Newdate.getFullYear() == year)
+        { countScheduled --; displayScheduled.textContent = countScheduled ; }
     })
 
     // Big-complete button
@@ -1171,6 +1197,11 @@ function modPriority(){
                 $($($(this).parent().parent().parent().parent().parent().children()[0]).children()[4]).remove()
             }
             $(this).parent().remove();
+            if(countFlagged < 0)
+            {
+                countFlagged = 0 ;
+                displayFlagged.textContent = countFlagged ;
+            }
         })
     })
 
